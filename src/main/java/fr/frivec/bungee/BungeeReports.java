@@ -2,11 +2,13 @@ package fr.frivec.bungee;
 
 import fr.frivec.bungee.config.Config;
 import fr.frivec.bungee.storage.Credentials;
+import fr.frivec.bungee.storage.database.BasicsRequests;
 import fr.frivec.bungee.storage.database.Database;
 import fr.frivec.bungee.storage.files.ReportStorage;
 import fr.frivec.core.json.GsonManager;
 import fr.frivec.core.logger.Logger;
 import fr.frivec.core.logger.Logger.LogLevel;
+import fr.frivec.core.utils.Utils;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 
@@ -26,6 +28,7 @@ public class BungeeReports extends Plugin {
 	public void onEnable() {
 		
 		instance = this;
+		Utils.isBungee = true;
 		
 		//Instanciate all the managers and the config
 		this.config = new Config();
@@ -48,12 +51,15 @@ public class BungeeReports extends Plugin {
 			
 		}
 			
-		if(sql)
+		if(sql) {
 			
 			this.database = new Database(new Credentials(getConfig().getString("MySQL.Host"), getConfig().getString("MySQL."), 
 										getConfig().getString("MySQL.Password"), getConfig().getInt("MySQL.Port", 3006)));
+			
+			BasicsRequests.createTables();
+			BasicsRequests.convertAllTables();
 		
-		else if(file)
+		}else if(file)
 			
 			this.fileStorage = new ReportStorage();
 		
