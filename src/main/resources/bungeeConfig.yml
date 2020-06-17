@@ -46,6 +46,7 @@ MySQL:
   Host: "host"
   DataBase: "databaseName"
   User: "userName"
+  Port: 3306
 
 File:
   Enable: false

@@ -47,4 +47,4 @@ jar {
     }
 }
 
-jar.setArchiveName("Moderation.jar")
+jar.setArchiveName("BungeeReports.jar")
