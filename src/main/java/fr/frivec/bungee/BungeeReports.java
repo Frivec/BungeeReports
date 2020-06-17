@@ -20,6 +20,8 @@ public class BungeeReports extends Plugin {
 	private ReportStorage fileStorage;
 	private GsonManager gson;
 	
+	private boolean uuid;
+	
 	@Override
 	public void onEnable() {
 		
@@ -29,6 +31,12 @@ public class BungeeReports extends Plugin {
 		this.config = new Config();
 		this.logger = new Logger(this);
 		this.gson = new GsonManager();
+		
+		/*
+		 * 
+		 * Storage
+		 * 
+		 */
 		
 		boolean sql = getConfig().getBoolean("MySQL.Enable"), file = getConfig().getBoolean("File.Enable");
 		
@@ -48,6 +56,14 @@ public class BungeeReports extends Plugin {
 		else if(file)
 			
 			this.fileStorage = new ReportStorage();
+		
+		/*
+		 * 
+		 * UUIDs
+		 * 
+		 */
+		
+		this.uuid = getConfig().getBoolean("UUIDUse");
 		
 		super.onEnable();
 	}
@@ -80,6 +96,10 @@ public class BungeeReports extends Plugin {
 	
 	public ReportStorage getFileStorage() {
 		return fileStorage;
+	}
+	
+	public boolean useUUID() {
+		return this.uuid;
 	}
 	
 	public static void log(final LogLevel level, final String message) {
