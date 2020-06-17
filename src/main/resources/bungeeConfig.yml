@@ -1,0 +1,51 @@
+#BungeeReports configuration
+#Welcome to the configuration section for the plugin: BungeeReports
+
+prefix: "&3[&aBungeecord-Report&3]" #Prefix for all the messages
+cooldown: 60 #In seconds. It is the cooldown between two use of the /report command
+
+UUIDUse: true #Usage of UUID instead of players' names. Only if your server is in online mode.
+
+messages: #All the messages of the plugin
+  
+  #Message sent to mods when a player is reported
+  modmessage: "&6%reporter% &bhas reported &c%victim% for: &3%reason% &b!"
+  
+  #Message sent to the players 
+  reportermessage: "&aThanks for your report."
+  
+  #Message sent when the player mistake the command /report
+  usage: "&cError: Use /report <player> <reason>"
+  
+  #Message sent when the sender enters a wrong command
+  notarget: "&cThis player is not connected on our network ! Verify the name."
+  
+  #Message sent when the player doesn't have the permission to use a command
+  nopermission: "&cYou do not have permission to use this command !"
+  
+  #Message sent when the player is under cooldown
+  cooldown: "&cYou have already made a report. Please wait before make another report. (%timeleft% seconds)"
+  
+Actions:
+  
+  #Action when a moderator click on the report message
+  MessageClickEvent: false #Enable the click event.
+  ClickEventMessage: "&aTeleportation to reported player!" #Message sent when the mod click on the report message
+  HoverMessage: "&aTeleportation on the target's server !" #Message showed when the mod hover his cursor on the message
+  Message: "&aYou will teleport on the same server than %target%. Target server: %server%" #Message sent when the action is launched
+  successfulTeleportation: "&aYou have been teleported on the same server than %target% !" #Message sent when the teleportation worked
+  noTeleportation: "&cTeleportation failed" #Message sent when the teleportation failed. For example, when the target isn't connected to the proxy.
+
+#Storage
+#You have the choice to enable or not the storage of reports
+#At the moment, you can enable the storage on a MySQL database or on a file in the folder of your proxy
+
+MySQL:
+  Enable: false
+  Password: "password"
+  Host: "host"
+  DataBase: "databaseName"
+  User: "userName"
+
+File:
+  Enable: false
