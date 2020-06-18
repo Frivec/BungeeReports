@@ -18,11 +18,9 @@ public class BasicsRequests {
 		
 		try (Connection connection = BungeeReports.getInstance().getDatabase().getConnection()) {
 			
-			PreparedStatement statement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS REPORT_TABLE (id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT, reporter varchar(36) NOT NULL, reported varchar(36) NOT NULL)");
+			final PreparedStatement statement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS REPORT_TABLE (id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT, reporter varchar(36) NOT NULL, reported varchar(36) NOT NULL, reasons varchar(255) NOT NULL)");
 			
 			statement.executeUpdate();
-			
-			statement = connection.prepareStatement("CREATE TABLE IF NOT EXISTS REASONS_TABLE (reporter varchar(36) NOT NULL, reported varchar(36) NOT NULL, reason varchar(50) NOT NULL)");
 			
 			statement.close();
 			
@@ -94,56 +92,7 @@ public class BasicsRequests {
 				
 				reportConverter.close();
 			
-			}else
-				
-				BungeeReports.log(LogLevel.INFO, "No report to convert. Starting reasons converter...");
-			
-			if(databaseMetaData.getTables(null, null, "reports", null).next()) {
-				
-				final PreparedStatement reasonConverter = connection.prepareStatement("SELECT * FROM reasons");
-				
-				reasonConverter.executeQuery();
-				
-				final ResultSet reasons = reasonConverter.getResultSet();
-					
-				while(reasons.next()) {
-					
-					BungeeReports.log(LogLevel.INFO, "§aPlease wait while converting old report table...");
-						
-					final UUID reportedUUID = UUID.fromString(reasons.getString("uuid"));
-					final String reported = reasons.getString("name"),
-							reason = reasons.getString("reason");
-						
-					final PreparedStatement sendInfos = connection.prepareStatement("INSERT INTO REASONS_TABLE (reporter, reported, reason) VALUES (?,?,?)");
-						
-					if(main.useUUID()) {
-							
-						sendInfos.setString(1, "converted");
-							
-						sendInfos.setString(2, reportedUUID.toString());
-							
-						sendInfos.setString(3, reason);
-							
-					}else {
-								
-						sendInfos.setString(1, "converted");
-							
-						sendInfos.setString(2, reported);
-							
-						sendInfos.setString(3, reason);
-							
-					}
-						
-					sendInfos.executeUpdate();
-					sendInfos.close();
-						
-				}
-				
-				reasonConverter.close();
-				
-			}else
-				
-				BungeeReports.log(LogLevel.INFO, "§aNo reasons to convert.");
+			}
 			
 			final PreparedStatement dropReportTable = connection.prepareStatement("DROP TABLE IF EXISTS reports"),
 									dropReasonsTable = connection.prepareStatement("DROP TABLE IF EXISTS reasons");
